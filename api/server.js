@@ -10,4 +10,28 @@ server.get('/', (req, res) => {
     res.status(200).json({ message: "pauline is here" });
 })
 
+
+server.post('/api/users', async (req, res) => {
+    try {
+        const { name, bio } = req.body
+        if ( !name || !bio ) {
+            res.status(400).json({
+                message: 'new user needs name and bio'
+            })
+        } else {
+            const newUser = await User.insert({
+                name, bio
+            })
+            console.log(newUser)
+            res.status(200).json(newUser)
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+            customMessage: 'something happened that is not right'
+        })
+    }
+})
+
+
 module.exports = server; // EXPORT YOUR SERVER instead of {}
