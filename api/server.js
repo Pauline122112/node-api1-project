@@ -16,14 +16,14 @@ server.post('/api/users', async (req, res) => {
         const { name, bio } = req.body
         if ( !name || !bio ) {
             res.status(400).json({
-                message: 'new user needs name and bio'
-            })
+							message: "Please provide name and bio for the user",
+						});
         } else {
             const newUser = await User.insert({
                 name, bio
             })
             console.log(newUser)
-            res.status(200).json(newUser)
+            res.status(201).json(newUser)
         }
     } catch (err) {
         res.status(500).json({
