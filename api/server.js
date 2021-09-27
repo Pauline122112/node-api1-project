@@ -10,7 +10,26 @@ server.get('/', (req, res) => {
     res.status(200).json({ message: "pauline is here" });
 })
 
+//GET users
 
+server.get("/api/users", (req, res) => {
+	User.find()
+		.then((users) => {
+			res.status(200).json(users);
+		})
+		.catch((err) => {
+			console.log(err);
+			res
+				.status(500)
+				.json({
+					message: err.message,
+					customMessage: "The users information could not be retrieved",
+				});
+		});
+	// res.json("Returns an array users.");
+});
+
+//POST
 server.post('/api/users', async (req, res) => {
     try {
         const { name, bio } = req.body
