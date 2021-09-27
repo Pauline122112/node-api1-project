@@ -29,6 +29,31 @@ server.get("/api/users", (req, res) => {
 	// res.json("Returns an array users.");
 });
 
+server.get("/api/users/:id", async (req, res) => {
+	try {
+		const { id } = req.params;
+		console.log(id);
+		const user = await User.findById(id);
+		console.log(user);
+		if (!user) {
+			res.status(404).json({
+				message: `message: "The user with the specified ID does not exist`,
+			})
+		} else {
+			res.status(200).json(user);
+		}
+	} catch (err) {
+		console.log(err);
+		res
+			.status(500)
+			.json({
+				message: err.message,
+				customMessage: "The user information could not be retrieved",
+			});
+	}
+});
+
+
 //POST
 server.post('/api/users', async (req, res) => {
     try {
